@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Builder</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 700px; margin: auto; }
+    h1, h2 { margin-bottom: 0.5rem; }
+    .section { margin-bottom: 2rem; }
+    .ingredient-row, .step-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; }
+    .ingredient-row input, select, .step-row textarea { flex: 1; padding: 0.5rem; }
+    .remove-btn { background: none; border: none; color: red; font-weight: bold; cursor: pointer; }
+    .add-btn { margin-top: 1rem; padding: 0.5rem 1rem; background: green; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <h1>Recipe Builder</h1>
+
+  <!-- IMAGE URL -->
+  <div class="section" id="image-section">
+    <h2>Recipe Image</h2>
+    <input type="text" id="image-url" placeholder="Enter Image URL (e.g. https://yourimageurl.com)" />
+  </div>
+
+  <!-- INGREDIENTS -->
+  <div class="section" id="ingredients-section">
+    <h2>Ingredients</h2>
+    <div class="ingredient-row">
+      <input type="number" placeholder="Amount" />
+      <select>
+        <option value="g">g</option>
+        <option value="ml">ml</option>
+        <option value="tsp">tsp</option>
+        <option value="tbsp">tbsp</option>
+        <option value="cup">cup</option>
+        <option value="pcs">pcs</option>
+      </select>
+      <input type="text" placeholder="Ingredient" />
+      <button class="remove-btn" onclick="removeRow(this)">✕</button>
+    </div>
+    <button class="add-btn" onclick="addIngredient()">+ Add Ingredient</button>
+  </div>
+
+  <!-- STEPS -->
+  <div class="section" id="steps-section">
+    <h2>Steps</h2>
+    <div class="step-row">
+      <label>Step 1</label>
+      <textarea rows="2" placeholder="Describe this step..."></textarea>
+      <button class="remove-btn" onclick="removeRow(this)">✕</button>
+    </div>
+    <button class="add-btn" onclick="addStep()">+ Add Step</button>
+  </div>
+
+  <button class="add-btn" style="background: blue;" onclick="saveRecipe()">💾 Save Recipe</button>
+
+  <script>
+    // Remove Row Function
+    function removeRow(el) {
+      el.parentElement.remove();
+      updateStepNumbers();
+    }
+
+    // Add Ingredient Row
+    function addIngredient() {
+      const container = document.getElementById('ingredients-section');
+      const row = document.createElement('div');
+      row.className = 'ingredient-row';
+      row.innerHTML = `
+        <input type="number" placeholder="Amount" />
+        <select>
+          <option value="g">g</option>
+          <option value="ml">ml</option>
+          <option value="tsp">tsp</option>
+          <option value="tbsp">tbsp</option>
+          <option value="cup">cup</option>
+          <option value="pcs">pcs</option>
+        </select>
+        <input type="text" placeholder="Ingredient" />
+        <button class="remove-btn" onclick="removeRow(this)">✕</button>
+      `;
+      container.insertBefore(row, container.querySelector('.add-btn'));
+    }
+
+    // Add Step Row
+    function addStep() {
+      const container = document.getElementById('steps-section');
+      const count = container.querySelectorAll('.step-row').length + 1;
+      const row = document.createElement('div');
+      row.className = 'step-row';
+      row.innerHTML = `
+        <label>Step ${count}</label>
+        <textarea rows="2" placeholder="Describe this step..."></textarea>
+        <button class="remove-btn" onclick="removeRow(this)">✕</button>
+      `;
+      container.insertBefore(row, container.querySelector('.add-btn'));
+    }
+
+    // Update Step Numbers After Removing
+    function updateStepNumbers() {
+      const steps = document.querySelectorAll('#steps-section .step-row label');
+      steps.forEach((label, index) => {
+        label.textContent = `Step ${index + 1}`;
+      });
+    }
+
+    // Save Recipe Function
+    function saveRecipe() {
+      const ingredients = [...document.querySelectorAll('.ingredient-row')].map(row => {
+        const inputs = row.querySelectorAll('input, select');
+        return {
+          amount: inputs[0].value,
+          unit: inputs[1].value,
+          item: inputs[2].value
+        };
+      });
+
+      const steps = [...document.querySelectorAll('.step-row textarea')].map(textarea => textarea.value);
+
+      const imageUrl = document.getElementById('image-url').value; // Get the image URL from input
+
+      if (!imageUrl) {
+        alert("Please enter an image URL.");
+        return;
+      }
+
+      // Save the recipe data (this is where you would interact with your database)
+      const recipeData = {
+        image: imageUrl,
+        ingredients,
+        steps
+      };
+
+      console.log('Recipe Saved:', recipeData);
+
+      // Here you'd send the recipeData to your backend (Supabase, MongoDB, etc.)
+      alert('Recipe saved successfully! Check the console for the saved recipe.');
+    }
+  </script>
+
+</body>
+</html>
