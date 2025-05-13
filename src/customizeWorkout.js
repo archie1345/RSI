@@ -14,10 +14,27 @@ function showStep(index) {
 }
 
 function nextStep() {
+  if (currentStep === 1 && userData.level === '') {
+    alert('Please select your level before continuing.');
+    return;
+  }
   if (currentStep < steps.length - 1) {
     showStep(currentStep + 1);
   }
 }
+
+function updateBackButton() {
+  document.getElementById('back-button').style.display = currentStep === 0 ? 'none' : 'block';
+}
+function showStep(index) {
+  steps.forEach((step, i) => {
+    step.classList.toggle('active', i === index);
+  });
+  currentStep = index;
+  updateBackButton();
+}
+// Call once at init
+updateBackButton();
 
 function previousStep() {
     if (currentStep > 0) {
@@ -51,11 +68,10 @@ function updateDuration() {
   }  
 
 function finishSetup() {
-  userData.intensity = document.getElementById('intensity-select').value;
-  console.log('Workout Setup Complete:', userData);
-  alert('Workout plan is ready!');
-  // In the future: send this data to a backend/database
+  alert("Workout plan created successfully!");
+  window.location.href = "workoutPlan.html";
 }
+// In the future: send this data to a backend/database
 
 // Initialize
 showStep(0);
