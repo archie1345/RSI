@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #1c1c1c;
+  color: #f2f2f2;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+#back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: transparent;
+  color: #d4f355;
+  border: none;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#back-button span {
+  margin-right: 0.5rem;
+}
+
+#back-button:hover {
+  color: #222;
+}
+
+.progress-bar {
+  background-color: #d4f355;
+  color: #222;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.step {
+  display: none;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.step.active {
+  display: flex;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(212, 243, 85, 0.3);
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin: -1rem 0 1.5rem;
+  line-height: 1.6;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid #d4f355;
+  border-radius: 30px;
+  background-color: transparent;
+  color: #d4f355;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0.3rem;
+}
+
+button:hover {
+  background-color: #d4f355;
+  color: #222;
+}
+
+button.active {
+  background-color: #d4f355;
+  color: #222;
+}
+
+.timer-display {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  color: #d4f355;
+}
+
+select {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  background-color: #333;
+  color: #f2f2f2;
+}
