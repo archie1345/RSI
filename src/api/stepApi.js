@@ -1,8 +1,8 @@
 import { supabase } from '../supabaseClient.js'
 
 // CREATE session
-export const createStep = async (Step) => {
-  return await supabase.from('Step').insert([step])
+export const createStep = async (stepData) => {
+  return await supabase.from('Step').insert([stepData])
 }
 
 // READ session(s)
@@ -11,11 +11,11 @@ export const getSteps = async () => {
 }
 
 // UPDATE session
-export const updateSteps = async (stepsId, updates) => {
-  return await supabase.from('Steps').update(updates).eq('stepsId', stepsId)
+export const updateSteps = async (stepid, updates) => {
+  return await supabase.from('Step').update(updates).eq('stepid', stepid)
 }
 
 // DELETE session
-export const deleteSteps = async (recipeId) => {
-  return await supabase.from('Steps').delete().eq('stepsId', stepsId)
+export const deleteSteps = async (stepid) => {
+  return await supabase.from('Step').delete().eq('stepid', stepid)
 }

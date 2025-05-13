@@ -11,11 +11,11 @@ export const getIngredients = async () => {
 }
 
 // UPDATE session
-export const updateIngredients = async (ingredientId, updates) => {
-  return await supabase.from('Ingredient').update(updates).eq('ingredientId', ingredientId)
+export const updateIngredients = async (ingredientid, updates) => {
+  return await supabase.from('Ingredient').update(updates).eq('ingredientid', ingredientid)
 }
 
 // DELETE session
-export const deleteIngredients = async (ingredientId) => {
-  return await supabase.from('Ingredient').delete().eq('ingredientId', ingredientId)
+export const deleteIngredients = async (ingredientid) => {
+  return await supabase.from('Ingredient').delete().eq('ingredientid', ingredientid)
 }
