@@ -6,3 +6,8 @@ const supabaseServiceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY //
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey)
+
+if (typeof window !== 'undefined') {
+  window.supabase = supabase;
+  window.supabaseAdmin = supabaseAdmin;
+}

@@ -1,21 +1,62 @@
-import { supabase } from '../supabaseClient.js'
+import { supabase } from '../supabaseClient';
 
-// CREATE user
-export const createUser = async (user) => {
-  return await supabase.from('User').insert([user])
-}
+// Signup using Supabase Auth, with optional username stored as user metadata
+export const signUp = async (email, password, username) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { username }, // store username in user metadata
+    },
+  });
 
-// READ user(s)
-export const getUsers = async () => {
-  return await supabase.from('User').select('*')
-}
+  if (error) {
+    console.error('SignUp error:', error);
+    return { data, error };
+  }
+  return { data, error };
+};
 
-// UPDATE user
-export const updateUser = async (userId, updates) => {
-  return await supabase.from('User').update(updates).eq('userId', userId)
-}
+// Sign in and insert session record in Session table
+export const signIn = async (email, password) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-// DELETE user
-export const deleteUser = async (userId) => {
-  return await supabase.from('User').delete().eq('userId', userId)
-}
+  if (!error && data.user) {
+    await supabase.from('Session').insert([
+      {
+        sessionid: crypto.randomUUID(),
+        userid: data.user.id,
+        logintimestamp: new Date(),
+        isactive: true,
+      },
+    ]);
+  }
+
+  return { data, error };
+};
+
+// Get current session info
+export const getSession = async () => {
+  const { data, error } = await supabase.auth.getSession();
+  return { data, error };
+};
+
+// Log out current user
+export const logout = async () => {
+  await supabase.auth.signOut();
+};
+
+// Update user metadata (e.g. username)
+export const updateUserMetadata = async (updates) => {
+  // updates = { username: 'newname', ... }
+  const { data, error } = await supabase.auth.updateUser({
+    data: updates,
+  });
+  if (error) {
+    console.error('Update user metadata error:', error);
+  }
+  return { data, error };
+};
