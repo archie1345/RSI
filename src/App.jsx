@@ -9,26 +9,28 @@ import RegisterForm from './page/RegisterForm';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  const getCurrentSession = async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    setUser(session?.user || null);
-  };
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setUser(data.session?.user || null);
+      setLoading(false);
+    };
 
-  getCurrentSession(); // fetch session on first load
+    getSession();
 
-  const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-    setUser(session?.user || null);
-  });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+      setLoading(false);  // Also set loading false here
+    });
 
-  return () => {
-    listener.subscription.unsubscribe();
-  };
-}, []);
+    return () => listener?.subscription.unsubscribe();
+  }, []);
 
+  if (loading) {
+    return <div>Loading...</div>; // Or a spinner
+  }
 
   return (
     <Router>
@@ -37,16 +39,16 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route
           path="/"
-          element={user ? <RecipeList /> : <Navigate to="/login" replace />} />
+          element={user ? <RecipeList user={user}/> : <Navigate to="/login" replace />} />
         <Route
           path="/recipe/:id"
-          element={user ? <RecipeDetail /> : <Navigate to="/login" replace />} />
+          element={user ? <RecipeDetail user={user}/> : <Navigate to="/login" replace />} />
         <Route
           path="/edit/:id"
-          element={user ? <RecipeForm /> : <Navigate to="/login" replace />} />
+          element={user ? <RecipeForm user={user}/> : <Navigate to="/login" replace />} />
         <Route
           path="/add"
-          element={user ? <RecipeForm /> : <Navigate to="/login" replace />} />
+          element={user ? <RecipeForm user={user}/> : <Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );

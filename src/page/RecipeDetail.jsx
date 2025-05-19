@@ -1,32 +1,98 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getRecipes } from '../api/recipeApi';
+import { getRecipeById, deleteRecipe } from '../api/recipeApi';
 
-const RecipeDetail = () => {
+const RecipeDetail = ({ user }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const { data, error } = await getRecipes();
-      if (error) {
-        console.error('Fetch error:', error);
+      const { data, error } = await getRecipeById(id, user?.id);
+      if (error || !data) {
+        // Recipe not found or user unauthorized
+        alert('Recipe not found or you do not have access.');
+        navigate('/', { replace: true });
       } else {
-        const found = data.find(r => r.recipeid === parseInt(id));
-        setRecipe(found);
+        setRecipe(data);
       }
+      setLoading(false);
     };
-    fetchRecipe();
-  }, [id]);
 
-  if (!recipe) return <div>Loading...</div>;
+    fetchRecipe();
+  }, [id, user, navigate]);
+
+  const handleDelete = async () => {
+  if (window.confirm('Are you sure you want to delete this recipe?')) {
+    const { error } = await deleteRecipe(recipe.recipeid);
+    if (!error) {
+      navigate('/');
+    } else {
+      console.error('Delete error:', error.message);
+      alert('Failed to delete recipe. Please try again.');
+    }
+  }
+};
+
+  if (loading) return <div>Loading...</div>;
+  if (!recipe) return null;
+
+
+  const isOwner = user?.id === recipe.userid;
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: '700px', margin: 'auto', padding: '2rem' }}>
       <button onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
 
-      <h1>{recipe.title}</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>{recipe.title}</h1>
+        {isOwner && (
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+              }}
+            >
+              ⋮
+            </button>
+            {menuOpen && (
+              <div
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '2rem',
+                  background: 'white',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+                  borderRadius: '6px',
+                  zIndex: 1,
+                }}
+              >
+                <button
+                  onClick={() => navigate(`/edit/${recipe.recipeid}`)}
+                  style={{ padding: '0.5rem 1rem', width: '100%', border: 'none', background: 'white', cursor: 'pointer' }}
+                >
+                  ✏️ Edit
+                </button>
+                <button
+                  onClick={handleDelete}
+                  style={{ padding: '0.5rem 1rem', width: '100%', border: 'none', background: 'white', cursor: 'pointer', color: 'red' }}
+                >
+                  🗑️ Delete
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <div style={{ color: 'gray', fontSize: '0.9rem' }}>
         By {recipe.username || 'Unknown'} • {new Date(recipe.createdat).toDateString()}
       </div>
@@ -56,21 +122,6 @@ const RecipeDetail = () => {
           </div>
         ))}
       </div>
-
-      <button
-        onClick={() => navigate(`/edit/${recipe.recipeid}`)}
-        style={{
-          marginTop: '1.5rem',
-          padding: '0.5rem 1rem',
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '6px',
-          cursor: 'pointer'
-        }}
-      >
-        ✏️ Edit
-      </button>
     </div>
   );
 };

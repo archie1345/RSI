@@ -1,8 +1,9 @@
 import { supabase } from '../supabaseClient.js'
 
 
-export const createRecipe = async (data) => {
+export const createRecipe = async (data, userId) => {
   const payload = {
+    userid: userId,
     title: data.title,
     description: data.description,
     pictlink: data.pictLink || null,
@@ -18,28 +19,48 @@ export const createRecipe = async (data) => {
     .insert([payload]);
 
   if (error) {
-  console.error('Insert error:', error);
-  alert(`Insert failed: ${error.message}`);
-}
+    console.error('Insert error:', error);
+    alert(`Insert failed: ${error.message}`);
+  }
 
   return { data: insertedData, error };
 };
 
 
 
+
 export const getRecipes = async () => {
-  return await supabase.from('Recipe').select('*')
-}
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .or(`visibility.eq.public,userid.eq.${supabase.auth.user().id}`);
+
+  return { data, error };
+};
+
+
+export const getRecipeById = async (id, userId) => {
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .eq('recipeid', id)
+    .or(`visibility.eq.public,userid.eq.${userId}`) // allow if public OR owned
+    .single();
+
+  return { data, error };
+};
+
+
+
 
 export const updateRecipe = async (id, data) => {
-  // Transform keys if needed to match DB columns
   const payload = {
     title: data.title,
     description: data.description,
-    pictlink: data.pictlink, // rename to DB column
+    pictlink: data.pictlink,
     visibility: data.visibility,
-    ingredients: data.ingredients, // assuming JSONB column
-    steps: data.steps // assuming JSONB column
+    ingredients: data.ingredients,
+    steps: data.steps
   };
 
   const { error } = await supabase
@@ -52,6 +73,10 @@ export const updateRecipe = async (id, data) => {
 
 
 export const deleteRecipe = async (recipeid) => {
-  return await supabase.from('Recipe').delete().eq('recipeid', recipeid)
-}
+  const { error } = await supabase
+    .from('Recipe')
+    .delete()
+    .eq('recipeid', recipeid);
 
+  return { error };
+};
