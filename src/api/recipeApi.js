@@ -30,25 +30,30 @@ export const createRecipe = async (data, userId) => {
 
 
 export const getRecipes = async () => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { data, error } = await supabase
-    .from('recipes')
+    .from('Recipe')
     .select('*')
-    .or(`visibility.eq.public,userid.eq.${supabase.auth.user().id}`);
+    .or(`visibility.eq.public,userid.eq.${user.id}`);
 
   return { data, error };
 };
 
 
-export const getRecipeById = async (id, userId) => {
-  const { data, error } = await supabase
-    .from('recipes')
-    .select('*')
-    .eq('recipeid', id)
-    .or(`visibility.eq.public,userid.eq.${userId}`) // allow if public OR owned
-    .single();
 
-  return { data, error };
-};
+  export const getRecipeById = async (id, userId) => {
+    const { data, error } = await supabase
+      .from('Recipe')
+      .select('*')
+      .or(`visibility.eq.public,userid.eq.${userId}`)
+      .eq('recipeid', id)
+      .single();
+
+    return { data, error };
+  };
 
 
 

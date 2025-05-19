@@ -30,7 +30,7 @@ function RecipeList({ user }) {
     const filtered =
       filter === 'public'
         ? allRecipes.filter(r => r.visibility === 'public' || r.userid === user.id)
-        : allRecipes.filter(r => r.visibility === 'private' && r.userid === user.id);
+        : allRecipes.filter(r => r.userid === user.id);
 
     setRecipes(filtered);
   }, [filter, allRecipes, user]);

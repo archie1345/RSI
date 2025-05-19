@@ -24,17 +24,6 @@ export const signIn = async (email, password) => {
     password,
   });
 
-  if (!error && data.user) {
-    await supabase.from('Session').insert([
-      {
-        sessionid: crypto.randomUUID(),
-        userid: data.user.id,
-        logintimestamp: new Date(),
-        isactive: true,
-      },
-    ]);
-  }
-
   return { data, error };
 };
 
