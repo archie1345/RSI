@@ -6,6 +6,8 @@ import RecipeDetail from './page/RecipeDetail';
 import RecipeForm from './page/RecipeForm';
 import LoginForm from './page/LoginForm';
 import RegisterForm from './page/RegisterForm';
+import CustomizeWorkout from './page/CustomizeWorkout';
+import WorkoutPlan from './page/WorkoutPlan';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -47,6 +49,12 @@ function App() {
         <Route
           path="/add"
           element={user ? <RecipeForm /> : <Navigate to="/login" replace />} />
+        <Route
+          path="/CustomizeWorkout"
+          element={<CustomizeWorkout />} />
+        <Route
+          path="/WorkoutPlan"
+          element={<WorkoutPlan />} />
       </Routes>
     </Router>
   );
