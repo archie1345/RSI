@@ -1,42 +1,296 @@
-/* #root {
-  max-width: 1280px;
+:root {
+  --primary-color: #212121;
+  --secondary-color: #e0e0e0;
+  --accent-color: #d4de4e;
+  --fitness-green: #d4de4e;
+  --light-gray: #f1f1f1;
+  --medium-gray: #e4e4e4;
+  --dark-gray: #a0a0a0;
+  --input-bg: #f5f5f5;
+  --text-color: #333;
+  --beige-bg: #e6e3cf;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #f8f8f8;
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  min-height: 100vh;
+}
+
+.fitness-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+/* Fitness App Styles */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #5a5b45;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.welcome-header {
   text-align: center;
+  margin-bottom: 3rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.welcome-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #5a5b45;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.nav-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.nav-button {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #5a5b45;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  background-color: #e6e6e6;
+}
+
+/* Goals Screen */
+.goals-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-dropdown {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 7px;
+  background-color: var(--beige-bg);
+  font-size: 1rem;
+  color: var(--text-color);
+  appearance: none;
+}
+
+.dropdown-select {
+  position: relative;
+}
+
+.dropdown-arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6e6c47;
+  font-size: 0.7rem;
+}
+
+.input-with-unit {
+  display: flex;
+  align-items: center;
+  background-color: var(--beige-bg);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.input-field {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background-color: transparent;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.input-field:focus {
+  outline: none;
+}
+
+.unit-label {
+  padding: 0 1rem;
+  font-weight: 600;
+  color: #6e6c47;
+}
+
+.submit-button {
+  background-color: var(--beige-bg);
+  color: var(--text-color);
+  border: none;
+  border-radius: 50px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 2rem;
+}
+
+.submit-button:hover {
+  background-color: #dcd9c0;
+}
+
+/* Workout Plan Screen */
+.workout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  margin-bottom: 0.5rem;
+}
+
+.workout-type, .duration-field {
+  padding: 1rem;
+  background-color: var(--beige-bg);
+  border-radius: 7px;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.workout-type-label, .duration-label {
+  font-weight: 600;
+  color: #5a5b45;
+}
+
+.age-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.age-input {
+  padding: 1rem;
+  border: none;
+  border-radius: 7px;
+  background-color: var(--beige-bg);
+  font-size: 1rem;
+}
+
+/* Progress Tracker */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.weight-display {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.weight-display h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #5a5b45;
+}
+
+.weight-value {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.value {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6e6c47;
+}
+
+.progress-chart {
+  border-radius: 10px;
+  background-color: white;
+  padding: 1rem;
+}
+
+.placeholder-chart {
+  width: 100%;
+  height: 200px;
+  background-color: #f5f5f5;
+  border-radius: 7px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 0.5rem;
+    border-radius: 0;
+    box-shadow: none;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .value {
+    font-size: 2.5rem;
   }
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-} */
