@@ -8,11 +8,7 @@ import LoginForm from './page/LoginForm';
 import RegisterForm from './page/RegisterForm';
 import CustomizeWorkout from './page/CustomizeWorkout';
 import WorkoutPlan from './page/WorkoutPlan';
-<<<<<<< HEAD
-import notes from './page/notes';
-=======
-import HomePage from './page/HomePage';
->>>>>>> ed1cfbaa5fad8c031737ffb0f913431bbdfb2c00
+import Notes from './page/Notes';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -67,8 +63,8 @@ function App() {
           path="/WorkoutPlan"
           element={<WorkoutPlan />} />
         <Route
-          path="/notes"
-          element={<notes />} />
+          path="/Notes"
+          element={<Notes />} />
       </Routes>
     </Router>
   );
