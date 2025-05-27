@@ -45,7 +45,7 @@ function App() {
           element={user ? <HomePage user={user} /> : <Navigate to="/login" replace />}
         />
         <Route
-          path="/"
+          path="/displayRecipe"
           element={user ? <RecipeList user={user}/> : <Navigate to="/login" replace />} />
         <Route
           path="/recipe/:id"
