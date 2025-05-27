@@ -1,0 +1,92 @@
+/* RecipeList.css */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logout-button {
+  padding: 6px 12px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.filter-buttons {
+  margin: 20px 0;
+}
+
+.filter-buttons button {
+  padding: 10px 16px;
+  margin: 0 5px;
+  border-radius: 6px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.filter-buttons .active-filter {
+  background-color: #2563eb;
+  color: white;
+}
+
+.no-recipes {
+  color: gray;
+}
+
+.recipe-list {
+  list-style: none;
+  padding: 0;
+}
+
+.recipe-item {
+  border-bottom: 1px solid #ccc;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.recipe-item:hover {
+  background-color: #f0f0f0;
+}
+
+.private-label {
+  font-size: 0.875rem;
+  color: #777;
+  margin-left: 8px;
+}
+
+.add-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}

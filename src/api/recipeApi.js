@@ -26,9 +26,6 @@ export const createRecipe = async (data, userId) => {
   return { data: insertedData, error };
 };
 
-
-
-
 export const getRecipes = async () => {
   const {
     data: { user },

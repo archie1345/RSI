@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRecipeById, deleteRecipe } from '../api/recipeApi';
+import React from 'react';
+
 
 const RecipeDetail = ({ user }) => {
   const { id } = useParams();
