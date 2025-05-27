@@ -8,6 +8,11 @@ import LoginForm from './page/LoginForm';
 import RegisterForm from './page/RegisterForm';
 import CustomizeWorkout from './page/CustomizeWorkout';
 import WorkoutPlan from './page/WorkoutPlan';
+<<<<<<< HEAD
+import notes from './page/notes';
+=======
+import HomePage from './page/HomePage';
+>>>>>>> ed1cfbaa5fad8c031737ffb0f913431bbdfb2c00
 
 function App() {
   const [user, setUser] = useState(null);
@@ -41,6 +46,10 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route
           path="/"
+          element={user ? <HomePage user={user} /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/"
           element={user ? <RecipeList user={user}/> : <Navigate to="/login" replace />} />
         <Route
           path="/recipe/:id"
@@ -57,6 +66,9 @@ function App() {
         <Route
           path="/WorkoutPlan"
           element={<WorkoutPlan />} />
+        <Route
+          path="/notes"
+          element={<notes />} />
       </Routes>
     </Router>
   );

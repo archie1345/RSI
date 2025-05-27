@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { noteAPI } from './supabase'
+import { supabase } from '../supabaseClient';
 
-function App() {
+function notes() {
     const [notes, setNotes] = useState([])
     const [showForm, setShowForm] = useState(false)
     const [content, setContent] = useState('')
@@ -121,4 +121,4 @@ function App() {
   )
 }
 
-export default App
+export default notes;
