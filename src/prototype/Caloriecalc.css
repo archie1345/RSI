@@ -1,0 +1,236 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #656839;
+}
+
+.container {
+    max-width: 375px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    min-height: 100vh;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #514B23;
+    font-size: 17px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #000;
+}
+
+.subtitle {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+input[type="number"]::placeholder {
+    color: #656839;
+}
+
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    font-size: 16px;
+    background-color: #fff;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 10px auto;
+    color: #656839;
+}
+
+select option {
+    color: #333;
+}
+
+.calculate-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #514B23;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.calculate-btn:hover {
+    background-color: #656839;
+}
+
+/* Focus styles */
+input:focus, select:focus {
+    outline: none;
+    border-color: #656839;
+    box-shadow: 0 0 0 2px rgba(101, 104, 57, 0.2);
+}
+
+/* ==================== */
+/* RESULTS PAGE STYLES */
+/* ==================== */
+
+.main-result {
+    background-color: #514B23;
+    color: white;
+    border-radius: 16px;
+    padding: 25px 20px;
+    margin: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(81, 75, 35, 0.2);
+}
+
+.main-result h2 {
+    font-size: 18px;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+    color: white;
+}
+
+.main-result p {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+}
+
+.main-result .description {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 8px;
+    color: rgba(255,255,255,0.9);
+}
+
+.macros-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.macro-card {
+    flex: 1;
+    background-color: white;
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f0f0;
+}
+
+.macro-card h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.macro-card p {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: #656839;
+}
+
+/* Responsive adjustments */
+@media (max-width: 350px) {
+    .macros-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .macro-card {
+        padding: 12px;
+    }
+    
+    .main-result {
+        padding: 20px 15px;
+    }
+    
+    .main-result p {
+        font-size: 28px;
+    }
+}
+
+/* Continue Container Styles */
+.continue-container {
+    margin-top: 30px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.continue-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #514B23;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.continue-btn:hover {
+    background-color: #656839;
+}
+
+/* Adjust spacing for the continue container */
+@media (max-width: 350px) {
+    .continue-container {
+        padding: 15px;
+        margin-top: 25px;
+    }
+    
+    .continue-btn {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
