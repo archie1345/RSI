@@ -8,7 +8,7 @@ import LoginForm from './page/LoginForm';
 import RegisterForm from './page/RegisterForm';
 import CustomizeWorkout from './page/CustomizeWorkout';
 import WorkoutPlan from './page/WorkoutPlan';
-import HomePage from './page/HomePage';
+import Notes from './page/Notes';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -62,6 +62,9 @@ function App() {
         <Route
           path="/WorkoutPlan"
           element={<WorkoutPlan />} />
+        <Route
+          path="/Notes"
+          element={<Notes />} />
       </Routes>
     </Router>
   );

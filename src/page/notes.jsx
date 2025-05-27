@@ -1,124 +1,137 @@
-import React, { useState, useEffect } from 'react'
-import { noteAPI } from './supabase'
+import { useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 
-function App() {
-    const [notes, setNotes] = useState([])
-    const [showForm, setShowForm] = useState(false)
-    const [content, setContent] = useState('')
-    const [error, setError] = useState('')
-    const [editingNote, setEditingNote] = useState(null)
+const Notes = ({ user }) => {
+  const [notes, setNotes] = useState([]);
+  const [newNote, setNewNote] = useState({
+    title: '',
+    content: ''
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchNotes()
-  }, [])
+    fetchNotes();
+  }, [user]);
 
   const fetchNotes = async () => {
     try {
-      const data = await noteAPI.getNotes()
-      setNotes(data)
-    } catch (err) {
-      setError('Failed to load notes')
-    }
-  }
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    if (!content.trim()) {
-      setError('Note cannot be empty!')
-      return
+      if (error) throw error;
+      setNotes(data);
+      setError('');
+    } catch (err) {
+      setError('Failed to load notes');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addNote = async (e) => {
+    e.preventDefault();
+    if (!newNote.content.trim()) {
+      setError('Note content cannot be empty');
+      return;
     }
 
     try {
-      if (editingNote) {
-        await noteAPI.updateNote(editingNote.id, content)
-      } else {
-        await noteAPI.createNote(content)
-      }
-      setContent('')
-      setError('')
-      setShowForm(false)
-      setEditingNote(null)
-      await fetchNotes()
-    } catch (err) {
-      setError(err.message)
-    }
-  }
+      const { data, error } = await supabase
+        .from('notes')
+        .insert([{ 
+          title: newNote.title,
+          content: newNote.content,
+          user_id: user.id 
+        }]);
 
-  const handleDelete = async (id) => {
-    try {
-      await noteAPI.deleteNote(id)
-      await fetchNotes()
+      if (error) throw error;
+      
+      setNotes([data[0], ...notes]);
+      setNewNote({ title: '', content: '' });
+      setError('');
     } catch (err) {
-      setError(err.message)
+      setError('Failed to save note');
     }
-  }
+  };
+
+  const deleteNote = async (id) => {
+    try {
+      await supabase
+        .from('notes')
+        .delete()
+        .eq('id', id);
+
+      setNotes(notes.filter(note => note.id !== id));
+    } catch (err) {
+      setError('Failed to delete note');
+    }
+  };
 
   return (
-    <div className="app">
-      <header className="header">
-        <h1>Personal Notes</h1>
-        <button onClick={() => {
-          setShowForm(true)
-          setEditingNote(null)
-          setContent('')
-        }}>
-          New Note
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-6">Daily Notes</h1>
+      
+      {error && <div className="alert alert-error mb-4">{error}</div>}
+
+      <form onSubmit={addNote} className="mb-8">
+        <input
+          type="text"
+          placeholder="Note title (optional)"
+          className="input input-bordered w-full mb-2"
+          value={newNote.title}
+          onChange={(e) => setNewNote({...newNote, title: e.target.value})}
+        />
+        <textarea
+          placeholder="What's on your mind today?"
+          className="textarea textarea-bordered w-full mb-2"
+          value={newNote.content}
+          onChange={(e) => setNewNote({...newNote, content: e.target.value})}
+          rows={4}
+        />
+        <button type="submit" className="btn btn-primary">
+          Add Note
         </button>
-      </header>
+      </form>
 
-      {showForm && (
-        <form className="note-form" onSubmit={handleSubmit}>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Enter your note..."
-          />
-          {error && <div className="error-message">{error}</div>}
-          <div className="form-actions">
-            <button type="submit">{editingNote ? 'Update' : 'Save'} Note</button>
-            <button
-              type="button"
-              className="cancel-btn"
-              onClick={() => {
-                setShowForm(false)
-                setEditingNote(null)
-                setContent('')
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+      {loading ? (
+        <div className="text-center">Loading notes...</div>
+      ) : notes.length === 0 ? (
+        <div className="text-center text-gray-500">No notes yet. Add your first note!</div>
+      ) : (
+        <div className="space-y-4">
+          {notes.map((note) => (
+            <div key={note.id} className="card bg-base-100 shadow-md">
+              <div className="card-body">
+                {note.title && <h3 className="card-title">{note.title}</h3>}
+                <p className="whitespace-pre-wrap">{note.content}</p>
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-sm text-gray-500">
+                    {new Date(note.created_at).toLocaleDateString('en-US', {
+                      weekday: 'long', 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric'
+                    })}
+                  </span>
+                  <button 
+                    onClick={() => deleteNote(note.id)}
+                    className="btn btn-sm btn-error"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
-
-      <div className="notes-list">
-        {notes.map(note => (
-          <div key={note.id} className="note-item">
-            <p className="note-content">{note.content}</p>
-            <div className="note-date">
-              {new Date(note.created_at).toLocaleString()}
-            </div>
-            <div className="note-actions">
-              <button onClick={() => {
-                setEditingNote(note)
-                setContent(note.content)
-                setShowForm(true)
-              }}>
-                Edit
-              </button>
-              <button 
-                className="delete-btn"
-                onClick={() => handleDelete(note.id)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default Notes;
