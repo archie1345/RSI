@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createRecipe, updateRecipe, getRecipes } from '../api/recipeApi';
+import React from 'react';
+
 
 const units = ['g', 'ml', 'tsp', 'tbsp', 'cup', 'pcs'];
 
-const RecipeForm = () => {
+const RecipeForm = ({user}) => {
   const { id } = useParams();
   const [formData, setFormData] = useState({
     title: '',
@@ -81,7 +83,7 @@ const RecipeForm = () => {
     if (id) {
       await updateRecipe(parseInt(id), formData);
     } else {
-      await createRecipe(formData);
+      await createRecipe(formData, user.id);
     }
     navigate('/');
   };
