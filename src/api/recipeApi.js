@@ -39,8 +39,6 @@ export const getRecipes = async () => {
   return { data, error };
 };
 
-
-
   export const getRecipeById = async (id, userId) => {
     const { data, error } = await supabase
       .from('recipe_with_username')
