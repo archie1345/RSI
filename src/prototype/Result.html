@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Calorie Results</title>
+    <link rel="stylesheet" href="Caloriecalc.css">
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" onclick="window.history.back()">Back</button>
+        <h1>Your Daily Nutrition</h1>
+        
+        <div class="main-result">
+            <h2>Daily Calories</h2>
+            <p id="calories">- Kkal</p>
+            <p class="description" id="goal-description">For maintenance</p>
+        </div>
+        
+        <div class="macros-container">
+            <div class="macro-card">
+                <h4>Protein</h4>
+                <p id="protein">- g</p>
+            </div>
+            
+            <div class="macro-card">
+                <h4>Carbs</h4>
+                <p id="carbs">- g</p>
+            </div>
+            
+            <div class="macro-card">
+                <h4>Fat</h4>
+                <p id="fat">- g</p>
+            </div>
+        </div>
+
+        <div class="continue-container">
+            <button class="continue-btn" onclick="window.location.href='Caloriecalc.html'">Continue</button>
+        </div>
+    </div>
+    
+    <!-- Link to external JavaScript file -->
+    <script src="Result.js"></script>
+</body>
+</html>
