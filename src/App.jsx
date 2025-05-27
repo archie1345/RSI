@@ -8,7 +8,7 @@ import LoginForm from './page/LoginForm';
 import RegisterForm from './page/RegisterForm';
 import CustomizeWorkout from './page/CustomizeWorkout';
 import WorkoutPlan from './page/WorkoutPlan';
-import Notes from './page/Notes';
+import Notes from './page/notes';
 
 function App() {
   const [user, setUser] = useState(null);
