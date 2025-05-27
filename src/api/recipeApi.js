@@ -43,7 +43,7 @@ export const getRecipes = async () => {
 
   export const getRecipeById = async (id, userId) => {
     const { data, error } = await supabase
-      .from('Recipe')
+      .from('recipe_with_username')
       .select('*')
       .or(`visibility.eq.public,userid.eq.${userId}`)
       .eq('recipeid', id)
