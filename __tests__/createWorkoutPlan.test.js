@@ -1,6 +1,6 @@
-import { createWorkoutPlan } from '../workoutPlanAPI';
+import { createWorkoutPlan } from '../src/api/workoutPlanAPI'; // Corrected path
 
-jest.mock('../workoutPlanAPI', () => ({
+jest.mock('../src/api/workoutPlanAPI', () => ({ // Corrected path
   createWorkoutPlan: jest.fn()
 }));
 
