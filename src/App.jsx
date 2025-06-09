@@ -11,8 +11,6 @@ import WorkoutPlan from './page/WorkoutPlan';
 import Notes from './page/notes';
 import HomePage from './page/HomePage';
 import GoalsScreen from './page/GoalsScreen';
-import WorkoutScreen from './page/WorkoutScreen';
-import ProgressScreen from './page/ProgressScreen';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -72,9 +70,6 @@ function App() {
         <Route 
           path="/goals" 
           element={<GoalsScreen/>} />
-        <Route 
-          path="/workout" 
-          element={<WorkoutScreen/>} />
         <Route 
           path="/progress" 
           element={<ProgressScreen/>} />

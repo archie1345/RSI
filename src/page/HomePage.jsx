@@ -23,7 +23,6 @@ function HomePage({ user }) {
         <button onClick={() => navigate('/WorkoutPlan')}>View Workout Plan</button>
         <button onClick={() => navigate('/notes')}>Personal Notes</button>
         <button onClick={() => navigate('/goals')}>Fitness Goals</button>
-        <button onClick={() => navigate('/workout')}>Workout Recommendation</button>
         <button onClick={handleLogout} className="logout-button">Logout</button>
       </div>
     </div>
