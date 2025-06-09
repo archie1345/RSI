@@ -10,7 +10,6 @@ import CustomizeWorkout from './page/CustomizeWorkout';
 import WorkoutPlan from './page/WorkoutPlan';
 import Notes from './page/notes';
 import HomePage from './page/HomePage';
-import Home from './page/Home';
 import GoalsScreen from './page/GoalsScreen';
 import WorkoutScreen from './page/WorkoutScreen';
 import ProgressScreen from './page/ProgressScreen';
@@ -70,9 +69,15 @@ function App() {
         <Route
           path="/Notes"
           element={<Notes />} />
-        <Route path="/goals" element={<GoalsScreen />} />
-        <Route path="/workout" element={<WorkoutScreen />} />
-        <Route path="/progress" element={<ProgressScreen />} />
+        <Route 
+          path="/goals" 
+          element={<GoalsScreen/>} />
+        <Route 
+          path="/workout" 
+          element={<WorkoutScreen/>} />
+        <Route 
+          path="/progress" 
+          element={<ProgressScreen/>} />
       </Routes>
     </Router>
   );
