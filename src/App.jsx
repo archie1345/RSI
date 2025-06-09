@@ -70,9 +70,6 @@ function App() {
         <Route 
           path="/goals" 
           element={<GoalsScreen/>} />
-        <Route 
-          path="/progress" 
-          element={<ProgressScreen/>} />
       </Routes>
     </Router>
   );
