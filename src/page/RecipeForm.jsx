@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createRecipe, updateRecipe, getRecipes } from '../api/recipeApi';
+import BackButton from '../components/BackButton';
 import React from 'react';
 
 
@@ -90,6 +91,7 @@ const RecipeForm = ({user}) => {
 
   return (
     <div style={{ padding: '2rem', maxWidth: '700px', margin: 'auto', fontFamily: 'sans-serif' }}>
+      <BackButton />
       <h1>Recipe Builder</h1>
       <form onSubmit={handleSubmit}>
         <div className="section">

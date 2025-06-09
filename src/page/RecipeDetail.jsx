@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRecipeById, deleteRecipe } from '../api/recipeApi';
+import BackButton from '../components/BackButton';
 import React from 'react';
 
 
@@ -48,7 +49,7 @@ const RecipeDetail = ({ user }) => {
 
   return (
     <div style={{ fontFamily: 'sans-serif', maxWidth: '700px', margin: 'auto', padding: '2rem' }}>
-      <button onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
+      <BackButton />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>{recipe.title}</h1>

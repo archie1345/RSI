@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getRecipes } from '../api/recipeApi';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import BackButton from '../components/BackButton';
 import React from 'react';
 import './RecipeList.css';
 
@@ -44,6 +45,7 @@ function RecipeList({ user }) {
   return (
     <div className="container">
       <div className="header">
+        <BackButton />
         <h1 className="title">Recipes</h1>
         <button onClick={handleLogout} className="logout-button">Logout</button>
       </div>
