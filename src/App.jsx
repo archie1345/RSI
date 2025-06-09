@@ -1,22 +1,79 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import './App.css';
-import Home from './components/Home';
-import GoalsScreen from './components/GoalsScreen';
-import WorkoutScreen from './components/WorkoutScreen';
-import ProgressScreen from './components/ProgressScreen';
+import { useEffect, useState } from 'react';
+import { supabase } from './supabaseClient';
+import RecipeList from './page/RecipeList';
+import RecipeDetail from './page/RecipeDetail';
+import RecipeForm from './page/RecipeForm';
+import LoginForm from './page/LoginForm';
+import RegisterForm from './page/RegisterForm';
+import CustomizeWorkout from './page/CustomizeWorkout';
+import WorkoutPlan from './page/WorkoutPlan';
+import Notes from './page/notes';
+import HomePage from './page/HomePage';
+import Home from './page/Home';
+import GoalsScreen from './page/GoalsScreen';
+import WorkoutScreen from './page/WorkoutScreen';
+import ProgressScreen from './page/ProgressScreen';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setUser(data.session?.user || null);
+      setLoading(false);
+    };
+
+    getSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+      setLoading(false);  // Also set loading false here
+    });
+
+    return () => listener?.subscription.unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Or a spinner
+  }
+
   return (
     <Router>
-      <div className="app-container fitness-app">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/goals" element={<GoalsScreen />} />
-          <Route path="/workout" element={<WorkoutScreen />} />
-          <Route path="/progress" element={<ProgressScreen />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route
+          path="/"
+          element={user ? <HomePage user={user} /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/displayRecipe"
+          element={user ? <RecipeList user={user}/> : <Navigate to="/login" replace />} />
+        <Route
+          path="/recipe/:id"
+          element={user ? <RecipeDetail user={user}/> : <Navigate to="/login" replace />} />
+        <Route
+          path="/edit/:id"
+          element={user ? <RecipeForm user={user}/> : <Navigate to="/login" replace />} />
+        <Route
+          path="/add"
+          element={user ? <RecipeForm user={user}/> : <Navigate to="/login" replace />} />
+        <Route
+          path="/CustomizeWorkout"
+          element={<CustomizeWorkout />} />
+        <Route
+          path="/WorkoutPlan"
+          element={<WorkoutPlan />} />
+        <Route
+          path="/Notes"
+          element={<Notes />} />
+        <Route path="/goals" element={<GoalsScreen />} />
+        <Route path="/workout" element={<WorkoutScreen />} />
+        <Route path="/progress" element={<ProgressScreen />} />
+      </Routes>
     </Router>
   );
 }

@@ -21,11 +21,13 @@ function HomePage({ user }) {
         <button onClick={() => navigate('/displayRecipe')}>View Recipes</button>
         <button onClick={() => navigate('/CustomizeWorkout')}>Customize Workout</button>
         <button onClick={() => navigate('/WorkoutPlan')}>View Workout Plan</button>
+        <button className="nav-button" onClick={() => handleNavigate('/goals')}>Fitness Goals</button>
+        <button className="nav-button" onClick={() => handleNavigate('/workout')}>Workout Recommendation</button>
         <button onClick={handleLogout} className="logout-button">Logout</button>
-
       </div>
     </div>
   );
 }
+
 
 export default HomePage;
