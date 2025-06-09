@@ -11,8 +11,8 @@ import WorkoutPlan from './page/WorkoutPlan';
 import Notes from './page/notes';
 import HomePage from './page/HomePage';
 import GoalsScreen from './page/GoalsScreen';
-import calorieform from './page/calorieform';
-import resultpage from './page/resultpage';
+import Calorieform from './page/calorieform';
+import Resultpage from './page/resultpage';
 
 
 function App() {
@@ -75,10 +75,10 @@ function App() {
           element={<GoalsScreen/>} />
         <Route
           path="/calorie-form"
-          element={user ? <CalorieForm user={user} /> : <Navigate to="/login" replace />}/>
+          element={user ? <Calorieform user={user} /> : <Navigate to="/login" replace />}/>
         <Route
           path="/calorie-result"
-          element={user ? <ResultPage user={user} /> : <Navigate to="/login" replace />}/>
+          element={user ? <Resultpage user={user} /> : <Navigate to="/login" replace />}/>
       </Routes>
     </Router>
   );
