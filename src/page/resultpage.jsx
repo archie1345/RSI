@@ -1,19 +1,45 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+import './Caloriecalc.css';
 
 function ResultPage() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const stored = localStorage.getItem('calorieResults');
-    if (stored) {
-      setData(JSON.parse(stored));
-    } else {
-      alert("No data found.");
-      window.location.href = '/';
-    }
-  }, []);
+    const fetchLatestResult = async () => {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
 
-  if (!data) return null;
+      if (userError || !user) {
+        alert('You must be logged in.');
+        navigate('/login');
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('calorie_results')
+        .select('*')
+        .eq('userid', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error || !data) {
+        alert("No data found.");
+        navigate('/calorie-form');
+        return;
+      }
+
+      setData(data);
+      setLoading(false);
+    };
+
+    fetchLatestResult();
+  }, [navigate]);
+
+  if (loading || !data) return <div className="container">Loading...</div>;
 
   const goalDesc = {
     maintenance: "For maintaining current weight",
@@ -23,16 +49,32 @@ function ResultPage() {
 
   return (
     <div className="container">
+      <button className="back-button" onClick={() => navigate(-1)}>Back</button>
       <h1>Your Daily Nutrition</h1>
+
       <div className="main-result">
         <h2>Daily Calories</h2>
         <p>{data.calories} Kkal</p>
         <p className="description">{goalDesc[data.goal]}</p>
       </div>
+
       <div className="macros-container">
-        <div className="macro-card"><h4>Protein</h4><p>{data.protein}g</p></div>
-        <div className="macro-card"><h4>Carbs</h4><p>{data.carbs}g</p></div>
-        <div className="macro-card"><h4>Fat</h4><p>{data.fat}g</p></div>
+        <div className="macro-card">
+          <h4>Protein</h4>
+          <p>{data.protein}g</p>
+        </div>
+        <div className="macro-card">
+          <h4>Carbs</h4>
+          <p>{data.carbs}g</p>
+        </div>
+        <div className="macro-card">
+          <h4>Fat</h4>
+          <p>{data.fat}g</p>
+        </div>
+      </div>
+
+      <div className="continue-container">
+        <button className="continue-btn" onClick={() => navigate('/calorie-form')}>Continue</button>
       </div>
     </div>
   );
