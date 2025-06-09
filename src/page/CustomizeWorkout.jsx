@@ -1,4 +1,3 @@
-// src/pages/CustomizeWorkout.jsx
 import { useState } from 'react';
 import { createWorkoutPlan } from '../api/workoutPlanAPI'; // Or inline the function
 import { supabase } from '../supabaseClient';
@@ -22,7 +21,7 @@ function CustomizeWorkout() {
     try {
       await createWorkoutPlan(user.id, level, duration, intensity);
       alert('Workout plan saved!');
-      window.location.href = '/workoutPlan'; // Adjust to your route
+      window.location.href = '/WorkoutPlan'; // Adjust to your route
     } catch (e) {
       alert('Error saving workout plan.');
     }
