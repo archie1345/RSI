@@ -11,6 +11,9 @@ import WorkoutPlan from './page/WorkoutPlan';
 import Notes from './page/notes';
 import HomePage from './page/HomePage';
 import GoalsScreen from './page/GoalsScreen';
+import calorieform from './page/calorieform';
+import resultpage from './page/resultpage';
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,6 +73,12 @@ function App() {
         <Route 
           path="/goals" 
           element={<GoalsScreen/>} />
+        <Route
+          path="/calorie-form"
+          element={user ? <CalorieForm user={user} /> : <Navigate to="/login" replace />}/>
+        <Route
+          path="/calorie-result"
+          element={user ? <ResultPage user={user} /> : <Navigate to="/login" replace />}/>
       </Routes>
     </Router>
   );
