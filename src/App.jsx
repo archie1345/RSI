@@ -74,7 +74,7 @@ function App() {
           path="/goals" 
           element={<GoalsScreen/>} />
         <Route
-          path="/calorie-form"
+          path="/calorieform"
           element={user ? <Calorieform user={user} /> : <Navigate to="/login" replace />}/>
         <Route
           path="/calorie-result"
