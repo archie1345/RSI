@@ -68,7 +68,7 @@ function App() {
           element={<WorkoutPlan />} />
         <Route
           path="/Notes"
-          element={<Notes />} />
+          element={user ? <Notes user={user} /> : <Navigate to="/login" replace />} />
         <Route 
           path="/goals" 
           element={<GoalsScreen/>} />
