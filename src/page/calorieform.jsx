@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Caloriecalc.css';
+import { calorieApi } from '../api/calorieAPI';
+import { supabase } from '../supabaseClient';
+
 
 function CalorieForm() {
   const [form, setForm] = useState({
@@ -18,7 +21,7 @@ function CalorieForm() {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   const { weight, height, age, sex, activity, goal } = form;
@@ -48,8 +51,7 @@ function CalorieForm() {
       return;
     }
 
-    const { error: insertError } = await supabase.from('calorie_results').insert([{
-      userid: user.id,
+    await calorieApi.createCalorieResult(user.id, {
       weight: w,
       height: h,
       age: a,
@@ -62,13 +64,7 @@ function CalorieForm() {
       protein,
       carbs,
       fat
-    }]);
-
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      alert("Failed to save result.");
-      return;
-    }
+    });
 
     navigate('/calorie-result');
   } catch (err) {
@@ -76,6 +72,7 @@ function CalorieForm() {
     alert("Something went wrong.");
   }
 };
+
 
   return (
     <div className="container">
