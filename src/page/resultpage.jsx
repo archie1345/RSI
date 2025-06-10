@@ -68,7 +68,7 @@ function ResultPage() {
       </div>
 
       <div className="continue-container">
-        <button className="continue-btn" onClick={() => navigate('/calorie-form')}>Continue</button>
+        <button className="continue-btn" onClick={() => navigate('/calorieform')}>Continue</button>
       </div>
     </div>
   );
