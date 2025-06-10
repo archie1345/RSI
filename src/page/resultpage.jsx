@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { calorieApi } from '../api/calorieAPI'; // ✅ Tambahkan ini
 import './Caloriecalc.css';
 
 function ResultPage() {
@@ -18,22 +19,15 @@ function ResultPage() {
         return;
       }
 
-      const { data, error } = await supabase
-        .from('calorie_results')
-        .select('*')
-        .eq('userid', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
-
-      if (error || !data) {
-        alert("No data found.");
+      try {
+        const result = await calorieApi.getLatestResult(user.id); // ✅ Gunakan calorieApi
+        setData(result);
+        setLoading(false);
+      } catch (error) {
+        alert("No data found or something went wrong.");
+        console.error(error);
         navigate('/calorie-form');
-        return;
       }
-
-      setData(data);
-      setLoading(false);
     };
 
     fetchLatestResult();
@@ -74,7 +68,7 @@ function ResultPage() {
       </div>
 
       <div className="continue-container">
-        <button className="continue-btn" onClick={() => navigate('/calorieform')}>Continue</button>
+        <button className="continue-btn" onClick={() => navigate('/calorie-form')}>Continue</button>
       </div>
     </div>
   );
