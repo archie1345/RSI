@@ -20,7 +20,7 @@ function ResultPage() {
       }
 
       try {
-        const result = await calorieApi.getLatestResult(user.id); // ✅ Gunakan calorieApi
+        const result = await calorieApi.getLatestResult(user.id);
         setData(result);
         setLoading(false);
       } catch (error) {
