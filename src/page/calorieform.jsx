@@ -18,13 +18,64 @@ function CalorieForm() {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  
-    console.log('Form submitted:', form);
+  const { weight, height, age, sex, activity, goal } = form;
+  const w = parseFloat(weight);
+  const h = parseFloat(height);
+  const a = parseInt(age);
+  const act = parseFloat(activity);
+
+  let bmr = sex === 'male'
+    ? (10 * w) + (6.25 * h) - (5 * a) + 5
+    : (10 * w) + (6.25 * h) - (5 * a) - 161;
+
+  const tdee = bmr * act;
+  const calories = goal === 'bulking' ? tdee + 500 :
+                   goal === 'cutting' ? tdee - 500 : tdee;
+
+  const protein = Math.round((calories * 0.3) / 4);
+  const carbs = Math.round((calories * 0.4) / 4);
+  const fat = Math.round((calories * 0.3) / 9);
+
+  try {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      alert("You must be logged in.");
+      navigate('/login');
+      return;
+    }
+
+    const { error: insertError } = await supabase.from('calorie_results').insert([{
+      userid: user.id,
+      weight: w,
+      height: h,
+      age: a,
+      sex,
+      activity_level: act,
+      goal,
+      bmr: Math.round(bmr),
+      tdee: Math.round(tdee),
+      calories: Math.round(calories),
+      protein,
+      carbs,
+      fat
+    }]);
+
+    if (insertError) {
+      console.error("Insert error:", insertError);
+      alert("Failed to save result.");
+      return;
+    }
+
     navigate('/calorie-result');
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong.");
+  }
+};
 
   return (
     <div className="container">
