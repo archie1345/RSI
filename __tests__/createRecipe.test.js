@@ -51,7 +51,7 @@ describe('Create Recipe Feature', () => {
   // (Based on the 'api-create-recipe' immersive analysis with V(G)=3 paths)
 
   // Path 1: Successful creation when pictLink is falsy
-  test('Path 1: Should successfully create a recipe with null pictlink if not provided and no error', async () => {
+  test('rp-wb-cr-tc1: Should successfully create a recipe with null pictlink if not provided and no error', async () => {
     const inputWithoutPictLink = { ...commonInput, pictLink: '' }; // Simulate falsy pictLink
 
     const { data, error } = await createRecipe(inputWithoutPictLink, mockUserId);
@@ -77,7 +77,7 @@ describe('Create Recipe Feature', () => {
   });
 
   // Path 2: Successful creation when pictLink is truthy
-  test('Path 2: Should successfully create a recipe with a provided pictlink and no error', async () => {
+  test('rp-wb-cr-tc2: Should successfully create a recipe with a provided pictlink and no error', async () => {
     const inputWithPictLink = { ...commonInput, pictLink: 'http://example.com/image.jpg' };
 
     const { data, error } = await createRecipe(inputWithPictLink, mockUserId);
@@ -102,7 +102,7 @@ describe('Create Recipe Feature', () => {
   });
 
   // Path 3: Error during submission (API returns error)
-  test('Path 3: Should handle and report an error during recipe creation', async () => {
+  test('rp-wb-cr-tc3: Should handle and report an error during recipe creation', async () => {
     const mockError = { message: 'Insert failed due to DB issue' }; // Supabase error format
     // Override the insert mock for this specific test to simulate an error
     supabase.from().insert.mockResolvedValueOnce({ data: null, error: mockError });
@@ -130,7 +130,7 @@ describe('Create Recipe Feature', () => {
   // The provided createRecipe function does not inherently perform these validations,
   // but relies on Supabase schema validation or external validation.
 
-  test('TC1: Missing title shows validation error (Hypothetical)', () => {
+  test('rp-bb-cr-tc1: Missing title shows validation error (Hypothetical)', () => {
     // This test simulates a scenario where an upstream validation function
     // would throw an error for a missing title.
     const badInput = { ...commonInput, title: '' };
@@ -140,7 +140,7 @@ describe('Create Recipe Feature', () => {
     expect(validate).toThrow('Title required');
   });
 
-  test('TC2: Missing ingredients shows validation error (Hypothetical)', () => {
+  test('rp-bb-cr-tc2: Missing ingredients shows validation error (Hypothetical)', () => {
     const badInput = { ...commonInput, ingredients: '' };
     const validate = () => {
       if (!badInput.ingredients) throw new Error('Ingredients required');
@@ -148,7 +148,7 @@ describe('Create Recipe Feature', () => {
     expect(validate).toThrow('Ingredients required');
   });
 
-  test('TC3: Missing visibility shows validation error (Hypothetical)', () => {
+  test('rp-bb-cr-tc3: Missing visibility shows validation error (Hypothetical)', () => {
     const badInput = { ...commonInput, visibility: '' };
     const validate = () => {
       if (!badInput.visibility) throw new Error('Visibility required');
@@ -156,7 +156,7 @@ describe('Create Recipe Feature', () => {
     expect(validate).toThrow('Visibility required');
   });
 
-  test('TC4: Valid input should not throw validation error (Hypothetical)', () => {
+  test('rp-bb-cr-tc4: Valid input should not throw validation error (Hypothetical)', () => {
     const validInput = { ...commonInput };
     const validate = () => {
       if (!validInput.title) throw new Error('Title required');

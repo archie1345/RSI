@@ -22,7 +22,7 @@ describe('Delete Recipe Feature', () => {
   // (Based on the 'api-delete-recipe' immersive analysis with V(G)=1 path,
   // which effectively means a success and failure scenario)
 
-  test('Path 1: Successful deletion should return null error', async () => {
+  test('rp-wb-de-tc1: Successful deletion should return null error', async () => {
     deleteRecipe.mockResolvedValueOnce({ error: null }); // Explicitly mock success for this path
 
     const { error } = await deleteRecipe(recipeId);
@@ -31,7 +31,7 @@ describe('Delete Recipe Feature', () => {
     expect(error).toBeNull();
   });
 
-  test('Path 2: Deletion error should return the error object', async () => {
+  test('rp-wb-de-tc2: Deletion error should return the error object', async () => {
     const mockError = new Error('Deletion failed on server');
     deleteRecipe.mockResolvedValueOnce({ error: mockError }); // Explicitly mock failure for this path
 
@@ -46,7 +46,7 @@ describe('Delete Recipe Feature', () => {
   // The provided deleteRecipe function does not inherently perform these validations,
   // but relies on Supabase to handle invalid IDs.
 
-  test('TC1: Invalid recipe ID should be handled by the API (if API has validation)', async () => {
+  test('rp-bb-de-tc1: Invalid recipe ID should be handled by the API (if API has validation)', async () => {
     const invalidId = null; // Or 'abc', or -1
     const mockError = new Error('Invalid ID provided'); // Error message from hypothetical validation
     deleteRecipe.mockResolvedValueOnce({ error: mockError });
@@ -59,7 +59,7 @@ describe('Delete Recipe Feature', () => {
     expect(error).toEqual(mockError);
   });
 
-  test('TC2: Valid recipe ID should lead to successful deletion', async () => {
+  test('rp-bb-de-tc2: Valid recipe ID should lead to successful deletion', async () => {
     // This is essentially a re-test of Path 1, reinforcing black-box perspective
     deleteRecipe.mockResolvedValueOnce({ error: null });
 

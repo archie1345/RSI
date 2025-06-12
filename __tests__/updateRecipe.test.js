@@ -33,7 +33,7 @@ describe('Update Recipe Feature', () => {
   // (Based on the 'api-update-recipe' immersive analysis with V(G)=1 path,
   // which effectively means a success and failure scenario)
 
-  test('Path 1: Successful update should return null error', async () => {
+  test('rp-wb-up-tc1: Successful update should return null error', async () => {
     updateRecipe.mockResolvedValueOnce({ error: null }); // Explicitly mock success for this path
 
     const { error } = await updateRecipe(mockRecipeId, updateData);
@@ -42,7 +42,7 @@ describe('Update Recipe Feature', () => {
     expect(error).toBeNull();
   });
 
-  test('Path 2: Update fails should return the error object', async () => {
+  test('rp-wb-up-tc2: Update fails should return the error object', async () => {
     const mockError = new Error('Database update failed');
     updateRecipe.mockResolvedValueOnce({ error: mockError }); // Explicitly mock failure for this path
 
@@ -56,7 +56,7 @@ describe('Update Recipe Feature', () => {
   // Note: These tests assume a validation layer exists BEFORE the updateRecipe API call.
   // The provided updateRecipe function does not inherently perform these validations.
 
-  test('TC1: Update with empty title (invalid input for hypothetical validation)', async () => {
+  test('rp-bb-up-tc1: Update with empty title (invalid input for hypothetical validation)', async () => {
     // This test simulates a scenario where validation (external to updateRecipe API)
     // would catch an empty title and prevent the update or return a specific error.
     const badInput = { ...updateData, title: '' };
@@ -72,7 +72,7 @@ describe('Update Recipe Feature', () => {
     expect(error).toEqual(validationError);
   });
 
-  test('TC2: Valid update with all fields (re-test of Path 1 from black-box perspective)', async () => {
+  test('rp-bb-up-tc2: Valid update with all fields (re-test of Path 1 from black-box perspective)', async () => {
     // This is essentially a re-test of Path 1 but from a black-box perspective,
     // ensuring a fully valid input leads to success.
     updateRecipe.mockResolvedValueOnce({ error: null }); // Explicitly mock success
